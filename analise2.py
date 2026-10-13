@@ -51,7 +51,28 @@ print("\nIMC médio das pessoas com e sem AVC: ")
 print(dados.groupby("AVC")["bmi"].agg(["mean", "min", "max"]).round(2))
 
 #comparação de quem fuma e quem não fuma com quem tem AVC
-print("\nQuantidade de pessoas que fumam que tem AVC: ")
+print("\nQuantidade de tabagismo que tem AVC: ")
 print(com_avc["smoking_status"].value_counts())
 
+print("\nPercentual de tabagismo que tem AVC: ")
+print((com_avc["smoking_status"].value_counts() / len(com_avc) * 100).round(2))
+
+print("\nQuantidade de tabagismo que não tem AVC: ")
+print(sem_avc["smoking_status"].value_counts())
+
+print("\nPercentual de tabagismo que não tem AVC: ")
+print((sem_avc["smoking_status"].value_counts() / len(sem_avc) * 100).round(2))
+
+print("\nTaxa de AVC dentro de cada categoria de tabagismo: ")
+#para não esquecer: o count é a quantidade de cada categoria, o sum é a quantidade de pessoas
+#com AVC dentro de cada categoria e o mean é a taxa de AVC dentro de cada categoria
+resumo_tabagismo = dados.groupby("smoking_status")["stroke"].agg(["count", "sum", "mean"])
+print(resumo_tabagismo)
+
+resumo_tabagismo.rename(
+    columns={"count": "pacientes", "sum": "com_avc", "mean": "taxa_avc_%"},
+    inplace=True
+)
+resumo_tabagismo["taxa_avc_%"] = (resumo_tabagismo["taxa_avc_%"] * 100).round(2)
+print(resumo_tabagismo)
 
