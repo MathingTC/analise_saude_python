@@ -7,7 +7,7 @@ dados = pd.read_csv("dados_tratados.csv")
 com_avc = dados[dados["stroke"] == 1]
 
 plt.figure()
-com_avc["age"].plot(kind="hist", bins=10, edgecolor="black")
+com_avc["age"].plot(kind="hist", bins=10, edgecolor="black") #esse gráfico é um histograma k
 plt.title("Distribuição das idades dos pacientes com AVC")
 plt.xlabel("Idade/anos")
 plt.ylabel("Quantidade de pacientes")
@@ -25,3 +25,28 @@ plt.ylabel("Nível médio de glicose")
 plt.savefig("grafico2_glicose_avc.png")
 plt.show()
 
+#Gráfico 3 - AVC por faixa etária
+faixa_0_17 = dados[dados["age"] < 18]
+faixa_18_39 = dados[(dados["age"] >= 18) & (dados["age"] <= 39)]
+faixa_40_59 = dados[(dados["age"] >= 40) & (dados["age"] < 60)]
+faixa_60_mais = dados[dados ["age"] >= 60]
+
+taxas = pd.Series(
+    [
+        faixa_0_17["stroke"].mean() * 100,
+        faixa_18_39["stroke"].mean() * 100,
+        faixa_40_59["stroke"].mean() * 100,
+        faixa_60_mais["stroke"].mean() * 100,
+    ],
+    index=["0-17", "18-39", "40-59", "60 ou mais"]
+)
+
+print(taxas.round(2))   
+
+plt.figure()
+taxas.plot(kind="bar", rot=0)
+plt.title("Taxa de AVC por Faixa Etária")
+plt.xlabel("Faixa etária (anos)")
+plt.ylabel("Pacientes com AVC (%)")
+plt.savefig("grafico3_taxa_avc_faixa_etaria.png")
+plt.show()
