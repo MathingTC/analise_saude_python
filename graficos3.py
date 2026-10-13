@@ -13,3 +13,15 @@ plt.xlabel("Idade/anos")
 plt.ylabel("Quantidade de pacientes")
 plt.savefig("grafico1_idade_avc.png")
 plt.show()
+
+#Gráfico 2 – Comparação entre pacientes com e sem AVC - com o nivel médio de glicose
+glicose_AVC = dados.groupby("AVC")["avg_glucose_level"].mean()
+
+plt.figure()
+glicose_AVC.plot(kind="bar", rot=0)
+plt.title("Nível médio de glicose: paciente com e sem AVC")
+plt.xlabel("Grupos de AVC")
+plt.ylabel("Nível médio de glicose")
+plt.savefig("grafico2_glicose_avc.png")
+plt.show()
+
